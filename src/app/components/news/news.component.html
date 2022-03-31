@@ -1,0 +1,56 @@
+<table>
+  <tbody>
+      <tr>
+        <button (click)="displayOrHideObject('new-post-form')">create News</button>
+        <div id="new-post-form" style="visibility: hidden; display: none">
+          <form>
+            <div>
+              <label for="new-news-name">name</label>
+              <input id="new-news-name">
+            </div>
+            <div>
+              <label for="new-news-sourceURL">source URL</label>
+              <input id="new-news-sourceURL" style="width: 90%">
+            </div>
+            <button type="submit" (click)="createNewPost()">create new news</button>
+          </form>
+        </div>
+      </tr>
+      <tr *ngFor="let news of newses | async">
+        <td >
+          <h1>{{news.name}}</h1>
+          <h2><a href="{{news.sourceURL}}">{{news.sourceURL}}</a></h2>
+          <p><span>{{news.publishing_date | date:'full'}}</span></p>
+          <span>True: {{news.relevance_vote}} fake: {{news.fake_vote}}</span>
+          <div id="control-panel">
+            <button id="true-button" mat-mini-fab (click)="increaseTruthVotes(news)">true</button>
+            <button id="fake-button" mat-mini-fab (click)="increaseFakeVotes(news)">fake</button>
+          </div>
+          <div id="comments-list">
+            <li *ngFor="let comment of news.comments">
+              <ul>
+                <h3>{{comment.commenter_name}}</h3>
+                <span>{{comment.comment}}</span>
+                <p><button id="delete-comment" (click)="deleteComment(news, comment)">X</button></p>
+              </ul>
+            </li>
+          </div>
+          <button (click)="displayOrHideObject('comment-form-'+news.news_id)">comment</button>
+          <form id="comment-form-{{news.news_id}}" style="visibility: hidden; display: none">
+            <div>
+              <label for="commenter-name-{{news.news_id}}" >name: </label>
+              <input id="commenter-name-{{news.news_id}}" type="text" required="required" style="width: 90%">
+            </div>
+            <div>
+              <label for="comment-text-{{news.news_id}}">comment: </label>
+              <input id="comment-text-{{news.news_id}}" type="text" required="required" style="width: 90%; height: 150px">
+            </div>
+            <button type="submit" (click)="publishComment(news)">submit</button>
+          </form>
+        </td>
+        <td>
+          <button (click)="deletePost(news)">X</button>
+        </td>
+      </tr>
+  </tbody>
+</table>

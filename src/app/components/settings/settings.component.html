@@ -1,0 +1,29 @@
+<h2>You are on page: {{page | async}}</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td id="swap-page-1"><button (click)="swapPage(1)">1</button></td>
+        <td id="swap-page-2" style="display: none; visibility: hidden"><button (click)="swapPage(2)">2</button></td>
+        <td id="swap-page-3" style="display: none; visibility: hidden"><button (click)="swapPage(3)">3</button></td>
+        <td id="swap-page-4" style="display: none; visibility: hidden"><button (click)="swapPage(4)">4</button></td>
+        <td id="swap-page-5" style="display: none; visibility: hidden"><button (click)="swapPage(5)">5</button></td>
+        <td id="swap-page-6" style="display: none; visibility: hidden"><button (click)="swapPage(6)">6</button></td>
+        <td id="dots" style="display: none; visibility: hidden;"><span>...</span></td>
+        <td id="swap-page-last" style="display: none; visibility: hidden"><button (click)="swapPage(last)">{{lastPage | async}}</button></td>
+        <td id="swap-page-selected" style="display: none; visibility: hidden">
+          <label for="select-page">page: </label>
+          <input id="select-page" type="number" required (keyup.enter)="swapCustomPage()">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+ <news-table *ngIf="upToDate.asObservable() | async"
+             [upToDate]="upToDate"
+            (broadcastUpdate)="setUpToDate($event)"
+             (broadcastRefreshPanel)="acceptRefresh($event)"
+             (broadcastSwapPage)="swapRequestedPage($event)"
+              >
+</news-table>
+
